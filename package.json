@@ -6,9 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "db-init": "firebase"
   },
   "dependencies": {
+    "firebase": "^9.11.0",
     "vue": "^3.2.37"
   },
   "devDependencies": {
