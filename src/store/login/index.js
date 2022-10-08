@@ -1,6 +1,6 @@
 import {defineStore} from "pinia";
 
-const alertState = defineStore('alert',{
+const loginState = defineStore('login',{
     state(){
         return {
 
@@ -13,4 +13,4 @@ const alertState = defineStore('alert',{
 
     }
 })
-export default alertState
+export default loginState

@@ -1,12 +1,20 @@
 <script setup>
-import mainStore from './store/mainPage.js'
-const Smain = mainStore();
 
+
+import Navigator from "./Component/reactive/Navigator.vue";
+import ModelCard from "./Component/layout/ModelCard.vue";
 </script>
 
 <template>
-<h1 class="text-3xl text-red-700">Hello world</h1>
+  <navigator/>
+  <model-card/>
 
+
+  <router-view v-slot="{ Component }">
+    <keep-alive>
+      <component :is="Component" />
+    </keep-alive>
+  </router-view>
 </template>
 
 <style scoped>
