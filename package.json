@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "firebase": "^9.11.0",
+    "pinia": "^2.0.22",
+    "tailwind": "^4.0.0",
     "vue": "^3.2.37"
   },
   "devDependencies": {
