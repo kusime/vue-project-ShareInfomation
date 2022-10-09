@@ -1,6 +1,6 @@
 <script setup>
 
-
+import 'tw-elements'; // active the tw-elements
 import Navigator from "./Component/reactive/Navigator.vue";
 import ModelCard from "./Component/layout/ModelCard.vue";
 </script>
@@ -16,6 +16,7 @@ import ModelCard from "./Component/layout/ModelCard.vue";
     </keep-alive>
   </router-view>
 </template>
+
 
 <style scoped>
 

@@ -2,7 +2,7 @@ import {defineStore} from "pinia";
 import getDate from "../../pubFunction/getDate.js";
 
 
-const mainPageStore = defineStore('submit', {
+const postingState = defineStore('posting', {
     state() {
         return {
             title: "",
@@ -17,4 +17,4 @@ const mainPageStore = defineStore('submit', {
     },
     actions: {}
 })
-export default mainPageStore
+export default postingState
