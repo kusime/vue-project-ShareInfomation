@@ -1462,7 +1462,7 @@ find-root@1.1.0:
 
 firebase@^9.11.0:
   version "9.11.0"
-  resolved "https://registry.npmjs.org/firebase/-/firebase-9.11.0.tgz"
+  resolved "https://registry.npmmirror.com/firebase/-/firebase-9.11.0.tgz#b4d93804e2a05b3b9cc59108eb6e08c850f9bf03"
   integrity sha512-AOPj3FmpweMulG3A1901hOhbCoW22IHQuRfst0Tew9Xc8Ldq75uILu0MnmCYdMVGitF7uTFVOFeyhWyGvMxpKw==
   dependencies:
     "@firebase/analytics" "0.8.1"
