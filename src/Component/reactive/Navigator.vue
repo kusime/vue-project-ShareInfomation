@@ -50,7 +50,11 @@
             </router-link>
           </li>
         </ul>
+
         <!-- Left links -->
+        <div class="text-gray-400 hover:text-blue-500">
+          {{ login.currentLoginState.isLogin ? "Welcome " + login.currentLoginState.currentUser : "You are not login yet .."}}
+        </div>
       </div>
       <!-- Collapsible wrapper -->
     </div>
@@ -58,11 +62,17 @@
 </template>
 
 <script setup>
-import navState from "../../store/mainPage.js";
+import navState from "../../store/nav/index.js";
 import { storeToRefs } from "pinia";
 import CoolTitle from "../layout/CoolTitle.vue";
+import loginState from "../../store/login/index.js";
 
 const { navUnits } = storeToRefs(navState()); //need to call the store
+// connect to loginState to represent the Login State Indicator
+
+const login = loginState()
+
+
 </script>
 
 <style scoped>

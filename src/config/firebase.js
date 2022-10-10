@@ -30,8 +30,8 @@ class Firebase {
 
   async updateValue(ref, value) {
     await runTransaction(ref, (rawValue) => {
-      console.log(rawValue);
-      if (rawValue) {
+      console.log("runTransaction:", rawValue);
+      if (rawValue === null) {
         return value;
       }
       return rawValue;
@@ -53,21 +53,15 @@ class Firebase {
     };
   }
 
-  async startMonitoring(path, target, defaultV = []) {
+  async startMonitoring(path, target) {
     // get the package of the path
     const chkBundle = await this.checkoutValue(path);
-
     // return the monitor
     return onValue(chkBundle.ref, (snapshot) => {
-      // onValue , first will run initialize ,
-      // if return false , then try to get the new value
-      // and onValue will monitor the database value ,
-      // intuitive is when change happened , will call this callback
-      if (Array.isArray(snapshot.val())) {
+      if (snapshot) {
         target = snapshot.val(); // use val to extra the value
         return true;
       }
-      target = defaultV;
       return false;
     });
   }
@@ -92,5 +86,9 @@ const firebaseConfig = {
 };
 
 const db = new Firebase("share-information/", firebaseConfig);
+// make a global data array
+const globalPostBundler = await db.checkoutValue("GlobalPost");
+await db.setValue(globalPostBundler.ref, "ArrayInit");
+
 // not export the class ,in-case multiple initialize
 export default db; // export the db
