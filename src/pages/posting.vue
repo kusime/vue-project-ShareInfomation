@@ -1,21 +1,13 @@
 <template>
-<text-area v-model:area-input.trim="field" placeholder="The message you want to post..." @onSubmit="handlerSubmit"/>
+<text-area v-model:area-input.trim="posting.content"
+           placeholder="The message you want to post..."
+           @onSubmit="posting.handlerSubmit"/>
 </template>
 
 <script setup>
 import TextArea from "../Component/reactive/TextArea.vue";
-import {ref} from "vue";
-
-
-// declare field as reactive , use ref().value to extract the value
-const field = ref('')
-
-
-// function field
-function handlerSubmit(){
-  console.log(field.value);
-}
-
+import postingState from "../store/submit/index.js";
+const posting = postingState()
 </script>
 
 <style scoped>

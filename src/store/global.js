@@ -38,6 +38,7 @@ const globalState = defineStore("global", {
       );
     },
     unregisterMonitors: async function () {
+      console.log(this.monitor.myPost, this.monitor.globalPost);
       db.stopMonitoring(this.monitor.myPost);
       db.stopMonitoring(this.monitor.globalPost);
     },

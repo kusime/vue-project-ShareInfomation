@@ -35,7 +35,7 @@
           ></textarea>
     </div>
   </div>
-  <cool-button prompt-text="Submit" @btnClicked="$emit('onSubmit')"/>
+  <cool-button prompt-text="Submit" data-bs-toggle="modal" data-bs-target="#globalAlert" @btnClicked="$emit('onSubmit')"/>
 </template>
 </cool-card>
 

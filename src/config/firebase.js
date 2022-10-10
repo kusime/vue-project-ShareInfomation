@@ -7,7 +7,6 @@ import {
   getDatabase,
   ref,
   onValue,
-  off,
 } from "firebase/database";
 import { getAnalytics } from "firebase/analytics";
 
@@ -55,8 +54,11 @@ class Firebase {
 
   async startMonitoring(path, target) {
     // get the package of the path
+    console.log("startMonitoring:", path);
+
     const chkBundle = await this.checkoutValue(path);
     // return the monitor
+    // https://firebase.google.com/docs/reference/js/database#onvalue
     return onValue(chkBundle.ref, (snapshot) => {
       if (snapshot) {
         target = snapshot.val(); // use val to extra the value
@@ -66,10 +68,11 @@ class Firebase {
     });
   }
 
-  stopMonitoring(monitor) {
+  stopMonitoring(monitorOff) {
     // receive a monitor to turn off the register
-    console.log(monitor);
-    off(monitor);
+    // https://firebase.google.com/docs/reference/js/database.md#unsubscribe
+    //
+    monitorOff();
   }
 }
 
