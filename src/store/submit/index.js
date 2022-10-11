@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 import getDate from "../../pubFunction/getDate.js";
-import loginState from "../login/index.js";
 import alertState from "../alert/index.js";
+import globalState from "../global.js";
+import { geneticInputCheck } from "../../pubFunction/inputCheck.js";
+import APIs from "../../config/APIs.js";
 
 const postingState = defineStore("posting", {
   state() {
@@ -11,27 +13,60 @@ const postingState = defineStore("posting", {
   },
   getters: {
     dataPackage: function (state) {
+      const global = globalState();
+      const currentDate = getDate();
       // use this to get the metadata
-      return { author: this.author, content: state.content, date: this.date };
+      return {
+        author: global.currentLoginState.currentUser,
+        content: state.content,
+        date: currentDate,
+      };
     },
   },
   actions: {
-    handlerSubmit() {
+    async handlerSubmit() {
       console.log("Submit");
       // connect to the store
-      const currentDate = getDate();
       const alert = alertState();
-      const login = loginState();
+      const global = globalState();
 
       // check if the user has already logged in
-      if (!login.currentLoginState.isLogin) {
+      if (!global.currentLoginState.isLogin) {
         // user not logged in
         alert.title = "Not logged in";
         alert.content = "Please login first";
         return;
       }
+      // user has already logged in
 
-      console.log(this.dataPackage);
+      // geneticInputCheck
+      if (!geneticInputCheck({ content: this.content })) {
+        // alert user to type something
+        alert.title = "Invalid Input";
+        alert.content = "Please try type something..😇";
+        return false;
+      }
+
+      // alert user submit is successfully sended
+      alert.title = "Success";
+      alert.content = "You have successfully submitted your posting";
+
+      // global.posts.myPosts.push(this.dataPackage);
+      // global.posts.globalPosts.push(this.dataPackage);
+      // use APIs to directly push the new posting to the database
+      await APIs.addPostingToGlobal(
+        global.currentLoginState.currentUser,
+        global.currentLoginState.currentPassword,
+        this.dataPackage
+      );
+      // add post to My
+      await APIs.addPostingToMy(
+        global.currentLoginState.currentUser,
+        global.currentLoginState.currentPassword,
+        this.dataPackage
+      );
+
+      console.log("Submit 😘>> ", this.dataPackage);
     },
   },
 });

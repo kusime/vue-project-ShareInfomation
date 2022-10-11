@@ -1,46 +1,48 @@
 import { defineStore } from "pinia";
-import db from "../config/firebase.js";
-import loginState from "./login/index.js";
+import APIs from "../config/APIs.js";
 
 const globalState = defineStore("global", {
   state() {
     return {
+      currentLoginState: {
+        isLogin: false,
+        currentUser: "",
+        currentPassword: "",
+      },
       posts: {
-        globalPost: [],
-        myPost: [],
+        globalPosts: [],
+        myPosts: [],
       },
       monitor: {
-        myPost: "monitor",
-        globalPost: "monitor",
+        myPosts: "monitor",
+        globalPosts: "monitor",
       },
     };
   },
+
   actions: {
     clearPosts: function () {
-      this.posts.globalPost = [];
-      this.posts.myPost = [];
+      this.posts.globalPosts = [];
+      this.posts.myPosts = [];
     },
     clearMonitor: function () {
-      this.monitor.globalPost = "";
-      this.monitor.myPost = "";
+      this.monitor.globalPosts = "";
+      this.monitor.myPosts = "";
+    },
+    // clear all current loginState
+    clearCurrentLoginState: function () {
+      this.currentLoginState = {
+        isLogin: false,
+        currentUser: "",
+        currentPassword: "",
+      };
     },
 
-    registerMonitors: async function () {
-      const login = loginState();
-      // register the monitor
-      this.monitor.globalPost = await db.startMonitoring(
-        "GlobalPost",
-        this.posts.globalPost
-      );
-      this.monitor.myPost = await db.startMonitoring(
-        `users/${login.currentLoginState.currentUser}/${login.currentLoginState.currentPassword}`,
-        this.posts.myPost
-      );
-    },
     unregisterMonitors: async function () {
-      console.log(this.monitor.myPost, this.monitor.globalPost);
-      db.stopMonitoring(this.monitor.myPost);
-      db.stopMonitoring(this.monitor.globalPost);
+      console.log(this.monitor.myPosts, this.monitor.globalPosts);
+      // db monitor
+      APIs.unregisterMonitors(this.monitor.myPosts);
+      APIs.unregisterMonitors(this.monitor.globalPosts);
     },
   },
 });

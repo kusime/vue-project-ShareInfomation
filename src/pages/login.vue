@@ -3,8 +3,9 @@
   <cool-title normal-text="Lo" light-text="gin"/>
   <cool-input title="Username" placeholder="Input Username here" v-model:inputs.trim="username"/>
   <cool-input title="Password" placeholder="Input Password here" v-model:inputs.trim="password"/>
-  <cool-button prompt-text="Login" data-bs-toggle="modal" data-bs-target="#globalAlert" @btnClicked="loginS.onLogin"/>
+  <cool-button prompt-text="Login" data-bs-toggle="modal" data-bs-target="#globalAlert" @btnClicked="login.onLogin"/>
 </cool-card>
+
 </template>
 
 <script setup>
@@ -17,11 +18,8 @@ import CoolInput from "../Component/reactive/CoolInput.vue";
 import loginState from "../store/login/index.js";
 import {storeToRefs} from "pinia";
 import CoolButton from "../Component/reactive/CoolButton.vue";
-const loginS = loginState()
-const {username ,password} = storeToRefs(loginS)
-
-
-
+const login = loginState()
+const {username ,password} = storeToRefs(login)
 
 </script>
 

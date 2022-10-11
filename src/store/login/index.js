@@ -1,38 +1,34 @@
 import { defineStore } from "pinia";
 import alertState from "../alert/index.js";
-import db from "../../config/firebase.js";
 import globalState from "../global.js";
 import { geneticInputCheck } from "../../pubFunction/inputCheck.js";
+import APIs from "../../config/APIs.js";
 
 const loginState = defineStore("login", {
   state() {
     return {
-      currentLoginState: {
-        isLogin: false,
-        currentUser: "",
-        currentPassword: "",
-      },
       username: "",
       password: "",
     };
   },
-  getters: {},
+
   actions: {
-    onLogin: async function (thisWrapper = null) {
+    onLogin: async function () {
       // define alert
       const alert = alertState();
       const global = globalState();
-
-      // redirect this
-      if (thisWrapper === null) {
-        thisWrapper = this;
+      // check already logged in
+      if (global.currentLoginState.isLogin === true) {
+        // alert already logged in
+        alert.title = "You  already logged in";
+        alert.content = "Please logout first.";
+        return false;
       }
-
       // generic inputs check
       if (
         !geneticInputCheck({
-          username: thisWrapper.username,
-          password: thisWrapper.password,
+          username: this.username,
+          password: this.password,
         })
       ) {
         // input check failed
@@ -40,36 +36,50 @@ const loginState = defineStore("login", {
       }
 
       // perform login action
-      const loginBundle = await db.checkoutValue(
-        `users/${thisWrapper.username}/${thisWrapper.password}`
-      );
+      const loginState = await APIs.login(this.username, this.password);
 
-      if (loginBundle.state === false) {
-        // login failed
-        alert.title = "Login Failed";
-        alert.content = "Username or password is incorrect.";
-        return false;
+      if (loginState) {
+        // success handler
+        global.currentLoginState.isLogin = true;
+        global.currentLoginState.currentUser = this.username;
+        global.currentLoginState.currentPassword = this.username;
+
+        // register db => local monitor
+        await this.registerMonitors();
+
+        // make success alert
+        alert.title = "Login Success";
+        alert.content =
+          "You are successfully logged in as " +
+          global.currentLoginState.currentUser;
+        return true;
       }
-
-      // success handler
-      this.currentLoginState.isLogin = true;
-      this.currentLoginState.currentUser = thisWrapper.username;
-      this.currentLoginState.currentPassword = thisWrapper.password;
-      await global.registerMonitors();
-
-      // make success alert
-      alert.title = "Login Success";
-      alert.content =
-        "You are successfully logged in as " +
-        this.currentLoginState.currentUser;
-      return true;
+      // user failed login alert
+      alert.title = "Login Failed";
+      alert.content = "Login failed. Please try again.";
+      return false;
     },
+
+    registerMonitors: async function () {
+      const global = globalState();
+      // register the db monitor
+      // db update -> local update
+      global.monitor.globalPosts = await APIs.registerGlobalPostingMonitor(
+        global.currentLoginState.currentUser,
+        global.currentLoginState.currentPassword
+      );
+      global.monitor.myPosts = await APIs.registerMyPostsMonitor(
+        global.currentLoginState.currentUser,
+        global.currentLoginState.currentPassword
+      );
+      // via vue watch , successfully !!
+      // https://stackoverflow.com/questions/51096547/how-to-get-the-target-of-a-javascript-proxy
+      // https://github.com/vuejs/pinia/discussions/443
+    },
+
     async onLogout() {
       const global = globalState();
       // clear currentLoginState
-      this.currentLoginState.isLogin = "";
-      this.currentLoginState.currentUser = "";
-      this.currentLoginState.currentPassword = "";
 
       // stop monitor
       await global.unregisterMonitors();
@@ -77,6 +87,7 @@ const loginState = defineStore("login", {
       // clear global state
       global.clearPosts();
       global.clearMonitor();
+      global.clearCurrentLoginState();
     },
   },
 });

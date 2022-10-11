@@ -1,14 +1,12 @@
 <script setup>
-
-import 'tw-elements'; // active the tw-elements
+import "tw-elements"; // active the tw-elements
 import Navigator from "./Component/reactive/Navigator.vue";
 import ModelCard from "./Component/layout/ModelCard.vue";
 </script>
 
 <template>
-  <navigator/>
-  <model-card/>
-
+  <navigator />
+  <model-card />
 
   <router-view v-slot="{ Component }">
     <keep-alive>
@@ -18,6 +16,4 @@ import ModelCard from "./Component/layout/ModelCard.vue";
 </template>
 
 
-<style scoped>
-
-</style>
+<style scoped></style>

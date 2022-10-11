@@ -52,14 +52,14 @@
         </ul>
 
         <!-- Left links -->
-        <cool-button v-if="login.currentLoginState.isLogin"
+        <cool-button v-if="global.currentLoginState.isLogin"
                      class="text-xs mx-5"
                      prompt-text="Logout"
                      @btnClicked="login.onLogout"/>
 
 
         <div class="text-gray-400 hover:text-blue-500">
-          {{ login.currentLoginState.isLogin ? "Welcome " + login.currentLoginState.currentUser : "You are not login yet .."}}
+          {{ global.currentLoginState.isLogin ? "Welcome " + global.currentLoginState.currentUser : "You are not login yet .."}}
         </div>
 
 
@@ -75,11 +75,13 @@ import { storeToRefs } from "pinia";
 import CoolTitle from "../layout/CoolTitle.vue";
 import loginState from "../../store/login/index.js";
 import CoolButton from "./CoolButton.vue";
+import globalState from "../../store/global.js";
 
 const { navUnits } = storeToRefs(navState()); //need to call the store
 // connect to loginState to represent the Login State Indicator
 
 const login = loginState()
+const global = globalState();
 
 
 </script>

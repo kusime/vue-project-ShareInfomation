@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import db from "../../config/firebase.js";
 import { geneticInputCheck } from "../../pubFunction/inputCheck.js";
 import alertState from "../alert/index.js";
-import loginState from "../login/index.js";
+import globalState from "../global.js";
+import APIs from "../../config/APIs.js";
 
 const registerState = defineStore("register", {
   state() {
@@ -25,7 +25,15 @@ const registerState = defineStore("register", {
     async onRegister() {
       // connect to the alert
       const alert = alertState();
-      const login = loginState();
+      const global = globalState();
+
+      // check if the user is already logged in
+      if (global.currentLoginState.isLogin) {
+        alert.title = "Register failed";
+        alert.content =
+          "You are already logged in ! Please logout and try again.";
+        return false;
+      }
 
       // check same
       if (this.password !== this.confirmPassword) {
@@ -33,35 +41,21 @@ const registerState = defineStore("register", {
         alert.content = "Password not same";
         return false;
       }
+
       // make geneticInputCheck
       if (geneticInputCheck(this.stateWrap)) {
-        // check user to register
-        const chkUser = await db.checkoutValue("users/" + this.username);
-        if (chkUser.state) {
-          // already have user
-          alert.title = "Register Failed";
-          alert.content = "Already have this user,Please use another one..";
-          return false;
+        const regState = await APIs.register(this.username, this.password);
+
+        if (regState) {
+          // make an alert success
+          alert.title = "Success Registered";
+          alert.content = `Welcome ${this.username}`;
+          return true;
         }
-
-        // interact with db and modal card
-        const chkBundler = await db.checkoutValue(
-          "users/" + this.username + "/" + this.password
-        );
-        await db.updateValue(chkBundler.ref, {
-          data: "ArrayInit",
-        });
-
-        await login.onLogin(this); // call the onLogin to register the monitor etc.
-
-        // make an alert success
-        alert.title = "Success Registered";
-        alert.content = `Welcome ${this.username}`;
-
-        console.log("ok");
-        return true;
+        alert.title = "Register Failed";
+        alert.content = "Already have this user,Please use another one..";
+        return false;
       }
-      console.log("not");
     },
   },
 });

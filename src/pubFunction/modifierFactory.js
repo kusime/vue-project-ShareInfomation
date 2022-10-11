@@ -3,7 +3,6 @@
 function modifierFactory(props, emits, keyword) {
   return function (e) {
     let value = e.target.value;
-    console.log(props[`${keyword}Modifiers`]);
     if (props[`${keyword}Modifiers`]["capitalize"]) {
       value = value.charAt(0).toUpperCase() + value.slice(1);
     }
