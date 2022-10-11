@@ -13,6 +13,12 @@ const loginState = defineStore("login", {
   },
 
   actions: {
+    // clear user Inputs
+    clearUserInputs() {
+      this.username = "";
+      this.password = "";
+    },
+
     onLogin: async function () {
       // define alert
       const alert = alertState();
@@ -32,6 +38,7 @@ const loginState = defineStore("login", {
         })
       ) {
         // input check failed
+        this.clearUserInputs();
         return false;
       }
 
@@ -52,11 +59,13 @@ const loginState = defineStore("login", {
         alert.content =
           "You are successfully logged in as " +
           global.currentLoginState.currentUser;
+        this.clearUserInputs();
         return true;
       }
       // user failed login alert
       alert.title = "Login Failed";
       alert.content = "Login failed. Please try again.";
+      this.clearUserInputs();
       return false;
     },
 
@@ -88,6 +97,9 @@ const loginState = defineStore("login", {
       global.clearPosts();
       global.clearMonitor();
       global.clearCurrentLoginState();
+
+      // clear Login Inputs
+      this.clearUserInputs();
     },
   },
 });

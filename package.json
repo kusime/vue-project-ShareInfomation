@@ -10,6 +10,7 @@
     "db": "firebase emulators:start"
   },
   "dependencies": {
+    "clipboard": "^2.0.11",
     "firebase": "^9.11.0",
     "pinia": "^2.0.22",
     "tailwind": "^4.0.0",

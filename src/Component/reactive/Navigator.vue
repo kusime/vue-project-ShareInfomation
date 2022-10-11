@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="relative w-full flex flex-wrap items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-sm navbar-dark"
+    class="relative w-full flex flex-wrap items-center justify-between py-4 bg-gray-100 text-gray-500 hover:text-gray-700 focus:text-gray-700 shadow-lg navbar navbar-expand-md navbar-dark"
   >
     <div
       class="container-fluid w-full flex flex-wrap items-center justify-between px-6"
@@ -37,12 +37,13 @@
       >
       <cool-title normal-text="Share-" light-text="Information"/>
         <!-- Left links -->
+
         <ul
-          class="navbar-nav flex flex-col pl-0 list-style-none mr-auto flex justify-around"
+          class="space-x-6  navbar-nav flex flex-col pl-3 list-style-none mr-auto flex justify-around w-auto"
         >
-          <li v-for="unit in navUnits" :key="unit" class="nav-item px-2 ml-2">
+          <li v-for="unit in navUnits" :key="unit" class="nav-item">
             <router-link
-              class="nav-link hover:text-blue-500"
+              class="nav-link hover:text-blue-500 text-xs leading-tight uppercase rounded px-2 py-3"
               aria-current="page"
               :to="unit.navRoute"
             >
@@ -61,7 +62,6 @@
         <div class="text-gray-400 hover:text-blue-500">
           {{ global.currentLoginState.isLogin ? "Welcome " + global.currentLoginState.currentUser : "You are not login yet .."}}
         </div>
-
 
       </div>
       <!-- Collapsible wrapper -->
@@ -88,6 +88,6 @@ const global = globalState();
 
 <style scoped>
 .router-link-active {
-  @apply text-indigo-700;
+  @apply w-full bg-sky-600 text-white;
 }
 </style>
