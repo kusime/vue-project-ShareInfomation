@@ -3,8 +3,8 @@ import { defineStore } from "pinia";
 const alertState = defineStore("alert", {
   state() {
     return {
-      title: "Default Alert Title",
-      content: "Default Alert Content",
+      title: "Requesting ..",
+      content: "Please wait .. this will take some time...",
     };
   },
 });
