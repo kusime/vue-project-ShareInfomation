@@ -6,8 +6,9 @@ import { storeToRefs } from "pinia";
 const firebaseConfig = {
   apiKey: "AIzaSyAbd9zSbg8PPG0bUVz_JGoSHSAi39oSk9s",
   authDomain: "share-information-3301d.firebaseapp.com",
-  // databaseURL: "https://share-information-3301d-default-rtdb.asia-southeast1.firebasedatabase.app",
-  databaseURL: "http://localhost:9000/?ns=share-information-3301d",
+  databaseURL:
+    "https://share-information-3301d-default-rtdb.asia-southeast1.firebasedatabase.app",
+  // databaseURL: "http://localhost:9000/?ns=share-information-3301d",
   projectId: "share-information-3301d",
   storageBucket: "share-information-3301d.appspot.com",
   messagingSenderId: "197751535480",
