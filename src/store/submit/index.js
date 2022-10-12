@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import getDate from "../../pubFunction/getDate.js";
 import alertState from "../alert/index.js";
 import globalState from "../global.js";
-import { geneticInputCheck } from "../../pubFunction/inputCheck.js";
 import APIs from "../../config/APIs.js";
 
 const postingState = defineStore("posting", {
@@ -40,7 +39,10 @@ const postingState = defineStore("posting", {
       // user has already logged in
 
       // geneticInputCheck
-      if (!geneticInputCheck({ content: this.content })) {
+      // do not use geneticInputCheck here , this will filter out some symbols kile [ , ]
+      // this content should be allowed to be posting !
+      if (this.content === "") {
+        // content is null
         // alert user to type something
         alert.title = "Invalid Input";
         alert.content = "Please try type something..😇";
