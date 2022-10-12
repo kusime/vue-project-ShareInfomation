@@ -1,21 +1,32 @@
 <template>
-
   <cool-card>
     <div class="container flex-col justify-center items-center">
-      <cool-heading :title="'Author :' + post.author" class="text-sm" ></cool-heading>
-      <cool-pill :content="post.date"/>
+      <cool-heading
+        :title="'Author :' + post.author"
+        class="text-sm"
+      ></cool-heading>
+      <cool-pill :content="post.date" />
       <cool-expand :random-i-d="randomID">
         <template #default>
-<!--          use id-${randomID}-content is aim to the just shot to the p elements-->
+          <!--          use id-${randomID}-content is aim to the just shot to the p elements-->
           <p :id="`id-${randomID}-content`">{{ post.content }}</p>
-          <cool-button :data-clipboard-target="`#id-${randomID}-content`" class="btn" prompt-text="COPY">
-            <img src="https://clipboardjs.com/assets/images/clippy.svg" class="w-4 h-4 mr-3" alt="Copy to clipboard">
+          <cool-button
+            :data-clipboard-target="`#id-${randomID}-content`"
+            class="btn"
+            prompt-text="COPY"
+            data-bs-target="#globalAlert"
+            data-bs-toggle="modal"
+          >
+            <img
+              src="https://clipboardjs.com/assets/images/clippy.svg"
+              class="w-4 h-4 mr-3"
+              alt="Copy to clipboard"
+            />
           </cool-button>
         </template>
       </cool-expand>
     </div>
   </cool-card>
-
 </template>
 
 <script setup>
@@ -28,31 +39,40 @@ import CoolExpand from "../layout/CoolExpand.vue";
 import CoolHeading from "../layout/CoolHeading.vue";
 import CoolCard from "../layout/CoolCard.vue";
 import CoolPill from "../layout/CoolPill.vue";
-const clipboard = new ClipboardJS('.btn');
+import alertState from "../../store/alert/index.js";
+const clipboard = new ClipboardJS(".btn");
 
-clipboard.on('success', function(e) {
-  console.info('Action:', e.action);
-  console.info('Text:', e.text);
-  console.info('Trigger:', e.trigger);
+clipboard.on("success", function (e) {
+  // connect to the alert modal
+  const alert = alertState()
+  // alert use had success copy content to clipboard
+  alert.title = "Copy success"
+  alert.content = "Success copy content to clipboard";
+
+  console.info("Action:", e.action);
+  console.info("Text:", e.text);
+  console.info("Trigger:", e.trigger);
+
   e.clearSelection();
 });
 
-
 defineProps({
-  post:{
+  post: {
     type: Object,
     required: true,
-    default(){
-      return {author: "Default author",date:getDate(),content: "Default content"};
+    default() {
+      return {
+        author: "Default author",
+        date: getDate(),
+        content: "Default content",
+      };
     },
   },
-  randomID : {
-    type:String,
-    required:true,
+  randomID: {
+    type: String,
+    required: true,
     // !! multiple instance will not call this in multiple times
-    default:randomUUID()
-  }
-})
-
-
+    default: randomUUID(),
+  },
+});
 </script>

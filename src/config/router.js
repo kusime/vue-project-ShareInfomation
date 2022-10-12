@@ -3,13 +3,14 @@ import posting from "../pages/posting.vue";
 import login from "../pages/login.vue";
 import register from "../pages/register.vue";
 import posts from "../pages/posts.vue";
+import { PATH } from "./APIs.js";
 
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: "/",
-      redirect: "/posts/globalPosts",
+      redirect: "/posts/" + PATH.GLOBAL_POSTS,
     },
     {
       path: "/posts/:type",

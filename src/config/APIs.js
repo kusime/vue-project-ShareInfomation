@@ -14,8 +14,8 @@ const firebaseConfig = {
   appId: "1:197751535480:web:070ad19dea86850544ba8d",
   measurementId: "G-P94S3DJ48D",
 };
-
-const PATH = {
+// export the PATH to keep the router can dynamic change
+export const PATH = {
   BASE_URI: "share-information",
   GLOBAL_POSTS: "globalPosts",
   MY_POSTS: "myPosts",
