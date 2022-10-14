@@ -23,6 +23,9 @@ const postingState = defineStore("posting", {
     },
   },
   actions: {
+    clearUserInputs() {
+      this.content = "";
+    },
     async handlerSubmit() {
       console.log("Submit");
       // connect to the store
@@ -49,10 +52,6 @@ const postingState = defineStore("posting", {
         return false;
       }
 
-      // alert user submit is successfully sended
-      alert.title = "Success";
-      alert.content = "You have successfully submitted your posting";
-
       // global.posts.myPosts.push(this.dataPackage);
       // global.posts.globalPosts.push(this.dataPackage);
       // use APIs to directly push the new posting to the database
@@ -67,8 +66,13 @@ const postingState = defineStore("posting", {
         global.currentLoginState.currentPassword,
         this.dataPackage
       );
-
       console.log("Submit 😘>> ", this.dataPackage);
+
+      // alert user submit is successfully sended
+      alert.title = "Success";
+      alert.content = "You have successfully submitted your posting";
+      // clear the previous inputs after successfully submit the posting
+      this.clearUserInputs();
     },
   },
 });
