@@ -78,7 +78,6 @@ class Firebase {
     await runTransaction(pathRef, (currentData) => {
       // check  want to set location to empty array
       // !! currentData initial data is null
-
       if (Array.isArray(value) && value.length === 0) {
         console.warn(
           "try to set location to empty array , now initialize empty array"

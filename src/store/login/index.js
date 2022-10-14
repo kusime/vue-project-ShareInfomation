@@ -49,7 +49,7 @@ const loginState = defineStore("login", {
         // success handler
         global.currentLoginState.isLogin = true;
         global.currentLoginState.currentUser = this.username;
-        global.currentLoginState.currentPassword = this.username;
+        global.currentLoginState.currentPassword = this.password;
 
         // register db => local monitor
         await this.registerMonitors();
